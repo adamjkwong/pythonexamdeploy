@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">    
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">    
+        {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/quotes" method="POST">
+        {% csrf_token %}
+        <button type="submit">Back</button>
+    </form>
+    <br>
+    <form action="/logout" method="POST">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    <p>Edit my account for: {{user.first_name}} {{user.last_name}}</p>
+    <h1>Edit My Account</h1>
+    <form action="/myaccount/edit/{{user.id}}" method="POST">
+        {% csrf_token %}
+        <p>First Name: </p><input type="text" name="first_name" value={{user.first_name}}>
+        <p>Last Name: </p><input type="text" name="last_name" value={{user.last_name}}>
+        <p>Email: </p><input type="text" name="email" value={{user.email}}>
+        <p>Current Password: </p><input type="text" name="old_password">
+        <p>New Password: </p><input type="text" name="new_password">
+        <button type="submit">Update</button>
+    </form></body>
+</html>

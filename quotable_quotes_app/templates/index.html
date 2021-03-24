@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">    
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">    
+        {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class = "flex-container">
+        <div>
+            <h1>Register</h1>
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <p>First Name: </p><input type="text" name="first_name">
+                <p>Last Name: </p><input type="text" name="last_name">
+                <p>Email: </p><input type="text" name="email">
+                <p>Password: </p><input type="text" name="password">
+                <p>Confirm Password: </p><input type="text" name="confirm_password">
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        <div>
+            <h2>Login</h2>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <p>Email: </p><input type="text" name="email">
+                <p>Password</p><input type="text" name="password">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

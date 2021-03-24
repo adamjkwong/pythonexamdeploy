@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">    
+</head>
+<body>
+    <form action="/quotes" method="POST">
+        {% csrf_token %}
+        <button type="submit">Back</button>
+    </form>
+    <br>
+    <form action="/logout" method="POST">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    <table>
+        <tr>
+            <th>{{user.first_name}} {{user.last_name}}'s Quotes</th>
+        </tr>
+            {% for q in all_the_quotes %}
+                {% if user.id == q.poster.id %}
+                <tr>
+                    <td>{{q.quoted}}: "{{q.quote}}". 
+                    </form>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+</html>

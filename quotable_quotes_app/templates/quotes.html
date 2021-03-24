@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">     
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">    
+        {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <p>Welcome {{user.first_name}} {{user.last_name}}. Email address: {{user.email}}</p>
+    <form action="/myaccount/{{user.id}}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Edit My Account</button>
+    </form>
+    <br>
+    <form action="/logout" method="POST">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    <br>
+    <div class = "flex-container">
+        <div>
+            <table>
+                <tr>
+                    <th>Quotes</th>
+                </tr>
+                    {% for q in all_the_quotes %}
+                    <tr>
+                        <td>{{q.quoted}}: "{{q.quote}}". 
+                        <br><p>Posted by: <a href = "user/{{q.poster.id}}">{{q.poster.first_name}} {{q.poster.last_name}}</a>
+                        </p>this quote was favorited by {{q.favorited_by.count}} people </p>
+                        <a href ="/favorite/{{q.id}}">Add Favorite | </a>
+                        <a href ="/unfavorite/{{q.id}}">Unfavorite</a>
+                        {% if q.poster.id == request.session.user_id %}
+                        <br> <a href = "delete_quote/{{q.id}}"> Delete Quote</a>
+                        {% endif %}
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
+        <div>
+            <form action="/post_quote" method="POST">
+                {% csrf_token %}
+                <label for="fname">Add a quote! </label><br>
+                <p>Author: </p>
+                <input type="text" id="lname" name="quoted" value="The Author"><br>
+                <p>Quote: </p>
+                <input type="text" id="fname" name="quote" value="The Quote">
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
